@@ -1,0 +1,36 @@
+{
+  "name": "trinity-webserver",
+  "version": "0.0.1",
+  "description": "Webserver for the trinity project.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "./node_modules/eslint/bin/eslint.js index.js src --ext js;exit 0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kezzo/trinity-webserver.git"
+  },
+  "author": "Bassstring & Kezzo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kezzo/trinity-webserver/issues"
+  },
+  "homepage": "https://github.com/Kezzo/trinity-webserver#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "morgan": "^1.9.1",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.11.5",
+    "@types/redis": "^2.8.7",
+    "eslint": "^5.6.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
