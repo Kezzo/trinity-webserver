@@ -2,10 +2,10 @@
   "name": "trinity-webserver",
   "version": "0.0.1",
   "description": "Webserver for the trinity project.",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "lint": "./node_modules/eslint/bin/eslint.js index.js src --ext js;exit 0",
+    "start": "node ./src/index.js",
+    "lint": "./node_modules/eslint/bin/eslint.js src --ext js;exit 0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
