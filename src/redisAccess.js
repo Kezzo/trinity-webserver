@@ -1,8 +1,11 @@
 const redis = require('redis')
 
 module.exports = class RedisAccess {
-  constructor () {
-    this.client = redis.createClient()
+  constructor (endpoint) {
+    this.client = redis.createClient({
+      host: endpoint,
+      port: 6379
+    })
   }
   async init () {
     this.client.on('connect', () => {
