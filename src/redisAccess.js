@@ -46,9 +46,19 @@ module.exports = class RedisAccess {
       })
     })
   }
-  async listPop (list, value) {
+  async listPop (list) {
     return new Promise((resolve, reject) => {
       this.client.LPOP(list, (err, ele) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(ele)
+      })
+    })
+  }
+  async getlist (list) {
+    return new Promise((resolve, reject) => {
+      this.client.LRANGE(list, 0, -1, (err, ele) => {
         if (err) {
           return reject(err)
         }

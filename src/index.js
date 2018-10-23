@@ -59,6 +59,18 @@ app.get('/joinmatch/:playerCount', async (req, res) => {
   }
 })
 
+app.get('/matchserverlist', async (req, res) => {
+  // Get one player and two player match lists
+  const result1Player = await redisAcccess.getlist(1 + 'player')
+  const result2Player = await redisAcccess.getlist(2 + 'player')
+  console.log("1Player matches: " + result1Player)
+  console.log("2Players matches: " + result2Player)
+  res.json({
+    '1Player': result1Player,
+    '2Players': result2Player,
+  })
+})
+
 if (redisAcccess.init()) {
   app.listen(port, () => console.log(`App listening on port: ${port}`))
 }
