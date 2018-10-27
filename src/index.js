@@ -6,8 +6,6 @@ const redisAcccess = new RedisAccess(process.env.REDIS_ENDPOINT)
 
 const { splitAddress } = require('./utils')
 
-const port = process.env.PORT || 8080
-
 const middleware = require('./middleware')
 
 app.use(middleware)
@@ -72,5 +70,5 @@ app.get('/matchserverlist', async (req, res) => {
 })
 
 if (redisAcccess.init()) {
-  app.listen(port, () => console.log(`App listening on port: ${port}`))
+  app.listen(port, () => console.log(`App listening on port 3075`))
 }
