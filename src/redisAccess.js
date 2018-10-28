@@ -66,4 +66,14 @@ module.exports = class RedisAccess {
       })
     })
   }
+  async getlistlength (list) {
+    return new Promise((resolve, reject) => {
+      this.client.LLEN(list, (err, length) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(length)
+      })
+    })
+  }
 }
