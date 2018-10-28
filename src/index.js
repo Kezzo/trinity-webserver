@@ -1,3 +1,4 @@
+const http = require('http')
 const express = require('express')
 const app = express()
 
@@ -9,6 +10,7 @@ const { splitAddress } = require('./utils')
 const listenPort = 3075
 
 const middleware = require('./middleware')
+let localHostIp
 
 app.use(middleware)
 
@@ -18,7 +20,7 @@ app.get('/', (req, res) => {
 
 // only used to locally emulate getting the host ip from a url
 app.get('/ip', (req, res) => {
-  res.status(200).send('127.0.0.1')
+  res.status(200).send(localHostIp)
 })
 
 app.post('/matchserver', async (req, res) => {
@@ -84,5 +86,23 @@ app.get('/matchserverlist', async (req, res) => {
 })
 
 if (redisAcccess.init()) {
+  const urlToGetHostIp = process.env.GET_HOST_IP_ADDR
+
+  if (urlToGetHostIp) {
+    const req = http.get(urlToGetHostIp, (res) => {
+      var resbody = [];
+      res.on('data', (chunk) => {
+        // You can process streamed parts here...
+        resbody.push(chunk)
+      }).on('end', () => {
+        localHostIp = Buffer.concat(resbody).toString('ascii')
+      })
+    })
+
+    req.on('error', (err) => {
+      console.log('ERROR: ' + err.message)
+    })
+  }
+
   app.listen(listenPort, () => console.log(`App listening on port: ${listenPort}`))
 }
