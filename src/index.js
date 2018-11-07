@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.post('/matchserver', async (req, res) => {
   // Put Matchserver details into redis
+  console.log(req.body)
   if (req.body.addr) {
     console.log('Received: ', req.body)
     const availableServers = await Promise.all([redisAcccess.getlistlength(1 + 'player'), redisAcccess.getlistlength(2 + 'player')])
@@ -26,21 +27,20 @@ app.post('/matchserver', async (req, res) => {
         res.status(500).end()
       })
 
-    console.log('Found ', availableServers[0] + ' 1-player-servers and ', availableServers[1], ' 1-player-servers')
+    console.log('Found ', availableServers[0] + ' 1-player-servers and ', availableServers[1], ' 2-player-servers')
     const requiredPlayerCount = availableServers[0] < availableServers[1] ? 1 : 2
 
     const listPushsToAwait = []
     for (let i = requiredPlayerCount; i > 0; i--) {
-      console.log('PUSH', requiredPlayerCount + 'player', req.body.addr)
-      listPushsToAwait.push(redisAcccess.listPush(requiredPlayerCount + 'player', req.body.addr))
+      console.log('PUSH', requiredPlayerCount + 'player', req.body.addr + ':' + req.body.port)
+      listPushsToAwait.push(redisAcccess.listPush(requiredPlayerCount + 'player', req.body.addr + ':' + req.body.port))
     }
 
-    const pushResults = await Promise.all(listPushsToAwait)
+    await Promise.all(listPushsToAwait)
       .catch(err => {
         console.log(err)
         res.status(500).end()
       })
-
     var responseData = Buffer.from([requiredPlayerCount])
     res.write(responseData)
     res.end()
