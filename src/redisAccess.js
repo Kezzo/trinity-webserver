@@ -36,6 +36,17 @@ module.exports = class RedisAccess {
       })
     })
   }
+  async key (value) {
+    return new Promise((resolve, reject) => {
+      this.client.KEYS(value, (err, success) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(success)
+      })
+    })
+  }
+
   async listPush (list, value) {
     return new Promise((resolve, reject) => {
       this.client.LPUSH(list, value, (err, success) => {
