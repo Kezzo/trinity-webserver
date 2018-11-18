@@ -24,7 +24,11 @@ app.get('/joinmatch/:playerCount', async (req, res) => {
       const splitted = splitAddress(result)
       const matchserver = await redisAcccess.key('*')
       if (matchserver.includes(splitted.containerID)) {
-        const serverAddr = { IP: splitted.ip, Port: splitted.port }
+        const serverAddr = {
+          IP: splitted.ip,
+          Port: splitted.port,
+          ContainerID: splitted.containerID
+        }
         console.log(serverAddr)
         res.json(serverAddr)
       } else {
